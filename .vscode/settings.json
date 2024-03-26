@@ -1,0 +1,9 @@
+{
+    "deno.config": "deno.json",
+    "deno.enablePaths": [
+        "/"
+    ],
+    "liveServer.settings.proxy": {
+        "proxyUri": "http://127.0.0.1:8000"
+    }
+}
