@@ -1,6 +1,7 @@
 {
     "imports": {
-        "@hono": "https://deno.land/x/hono@v3.7.6/mod.ts",
+        "@hono": "https://deno.land/x/hono@v3.12.11/mod.ts",
+        "@hono/": "https://deno.land/x/hono@v3.12.11/",
         "@tsoa-deno/runtime": "https://deno.land/x/tsoa_runtime@v6.2.0.0/mod.ts"
     }
 }

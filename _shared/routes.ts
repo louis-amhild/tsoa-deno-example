@@ -3,7 +3,6 @@ import {
   fetchMiddlewares,
   HonoTemplateService,
   TsoaRoute,
-  ValidationService,
   ValidateError,
   isTsoaContext
 } from '@tsoa-deno/runtime';
@@ -11,6 +10,8 @@ import {
 import { assert } from "https://deno.land/std@0.64.0/_util/assert.ts";
 
 
+// WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+import { ImagesController } from './../images/images-controller.ts';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { RootController } from './../example/example-controller.ts';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
@@ -37,8 +38,7 @@ const models: TsoaRoute.Models = {
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 };
-const validationService = new ValidationService(models);
-const templateService = new HonoTemplateService(models, {"noImplicitAdditionalProperties":"throw-on-extras"});
+const templateService = new HonoTemplateService(models, {"noImplicitAdditionalProperties":"throw-on-extras","bodyCoercion":true});
 
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 
@@ -49,7 +49,46 @@ export function RegisterRoutes<T extends Hono>(router: T) {
     // ###########################################################################################################
 
     return router
-        .get('/', 
+        .get('/images', 
+                async (honoCtx: HonoContext, next: Next) => {
+                await templateService.getTsoaCompatContext(honoCtx);
+                await next();
+                },
+                ...(fetchMiddlewares<any>(ImagesController)),
+                // eslint-disable-next-line @typescript-eslint/unbound-method
+                ...(fetchMiddlewares<any>(ImagesController.prototype.rootGet)),
+               (context: HonoContext, next: Next) => {
+                assert(isTsoaContext(context), "Hono context was not converted to TSOA compatible context");
+
+                const args: Record<string, TsoaRoute.ParameterSchema> = {
+                        url: {"in":"query","name":"url","dataType":"string"},
+                };
+
+                let validatedArgs: any[] = [];
+                try {
+                  validatedArgs = templateService.getValidatedArgs({args, context, next});
+                } catch (err: any) {
+                  if (err instanceof ValidateError) {
+                    return context.json({ fields: err.fields }, err.status || 400);
+                  }
+
+                  return context.json({
+                    message: err.message,
+                    cause: err.cause,
+                  });
+                }
+
+                const controller = new ImagesController();
+
+                return templateService.apiHandler({
+                  methodName: 'rootGet',
+                  controller,
+                  context,
+                  validatedArgs,
+                  successStatus: undefined,
+                });
+              },
+        )        .get('/', 
                 async (honoCtx: HonoContext, next: Next) => {
                 await templateService.getTsoaCompatContext(honoCtx);
                 await next();

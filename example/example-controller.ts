@@ -1,7 +1,7 @@
 import { Route, Body, Post, Get, Controller } from "@tsoa-deno/runtime";
 
 import { dirname } from 'https://deno.land/std@0.214.0/path/mod.ts';
-import * as path from "https://deno.land/std/path/mod.ts";
+import * as path from "https://deno.land/std@0.214.0/path/mod.ts";
 
 interface EmbeddingRequest {
     input?: string
@@ -11,18 +11,19 @@ interface EmbeddingResponse {
     embedding: number[]
 }
 
-function getFullPath(relativePath: string): string {
+export function getFullPath(relativePath: string): string {
     // Get script path
     const testPath = dirname(new URL(import.meta.url).pathname);
     // Join test script path and relative file path (replace leading \ for Windows path to work as Deno is adding this for some reason)
     return path.join(testPath, relativePath).replace(/^\\/, '');
   }
 
-function readFileSync(filePath: string) : string {
+export function readTextFileSync(filePath: string) : string {
     const decoder = new TextDecoder("utf-8");
     const file = Deno.readFileSync(getFullPath(filePath));
     return decoder.decode(file);
 }
+
 
 /**
  * Get info about the CDN cache of StoryHunt domains and refresh cache
@@ -32,10 +33,11 @@ export class RootController extends Controller {
     @Get('')
     public rootGet(): string {
         this.setHeader("Content-Type", "text/html");
-        const index = readFileSync("./index.html");
+        const index = readTextFileSync("./index.html");
         return index.toString();
     }
 }
+
 /**
  * Get info about the CDN cache of StoryHunt domains and refresh cache
  */
