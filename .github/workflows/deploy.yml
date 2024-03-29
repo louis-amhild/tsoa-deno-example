@@ -29,11 +29,11 @@ jobs:
           node-version: lts/*
 
       - name: Install step
-        run: "npm install"
+        run: "npm install && npm install --force @img/sharp-linux-x64"
 
       - name: Upload to Deno Deploy
         uses: denoland/deployctl@v1
         with:
           project: "tsoa-deno-example"
-          entrypoint: "example/index.ts "
+          entrypoint: "example/index.ts"
           root: ""
